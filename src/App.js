@@ -1,23 +1,23 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import Form from './Form';
+import Table from './Table';
 
 function App() {
+  const [products, setProducts] = useState([])
+  const [btnCreate, setBtnCreate] = useState(true);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/products/find/1")
+    .then(productsReturn => productsReturn.json())
+    .then(products_json => setProducts(products_json));
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>{JSON.stringify(products)}</p>
+      <Form botao={btnCreate}/>
+      <Table vector ={products}/>
     </div>
   );
 }
